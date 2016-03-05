@@ -13,3 +13,7 @@
 .product :nth-child(odd){
   background-color: #aaaaaa;
 }
+
+hr{
+  width: 100%;
+}

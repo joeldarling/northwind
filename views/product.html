@@ -41,16 +41,34 @@
             <input name="stock" type="number" id="{{ product._id.toString() }}_qty"class="form-control" value="{{ product.numInStock }}" />
           </div>
           <div class="col-sm-3">
-            <button type="submit" class="btn btn-primary" onclick="window.location='/products/quantity/{{ product._id.toString() }}?quantity='+document.getElementById('{{ product._id.toString() }}_qty').value">Update Stock</button>          </div>
+            <button type="submit" class="btn btn-primary" onclick="window.location='/products/quantity/{{ product._id.toString() }}?quantity='+document.getElementById('{{ product._id.toString() }}_qty').value">Update Stock</button>
+          </div>
+
+
           <div class="col-sm-3">
             {% if product.active %}
-              <a href="/products/{{ product._id.toString() }}/toggle" class="btn btn-danger" role="button">Discontinue</a>
+              <a href="/products/toggle/{{ product._id.toString() }}" class="btn btn-danger" role="button">Discontinue</a>
             {% else %}
-              <a href="/products/{{ product._id.toString() }}/toggle" class="btn btn-success" role="button">Recontinue</a>
+              <a href="/products/toggle/{{ product._id.toString() }}" class="btn btn-success" role="button">Recontinue</a>
             {% endif %}
           </div>
+          {% if product._id.toString() === highlight%}
+              <div >
+                <a href="/products/delete/{{ product._id.toString() }}" class="btn btn-danger" role="button">
+                  <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                </a>
+              </div>
+          {% endif %}
         </div>
       </div>
+      {% if product._id.toString() === highlight%}
+          <div class="col-sm-offset-7"></div>
+          <div class="col-sm-5">
+            <strong>Description:</strong>
+            <p>{{product.description}}</p>
+          </div>
+      {% endif %}
+      <hr/>
     {% endfor %}
 
   </div>
