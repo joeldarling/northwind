@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 productSchema = new Schema({
   name: {type: String, required: true},
   description: {type: String},
-  numInStock: {type: Number, default: 10},
+  numInStock: {type: Number},
   active: {type: Boolean, default: true},
   lastUpdated: {type: Date, default: Date.now}
 
@@ -18,6 +18,19 @@ productSchema.pre('save', function(next){
   this.lastUpdatedAt = Date.now();
   next();
 });
+
+productSchema.pre('validate', function (next) {
+  if(!this.name){
+    this.name = 'Super Cool Product No. ' + Math.floor(Math.random() * 100);
+  }
+
+  if(!this.description){
+    this.description = 'Description for ' +this.name;
+  }
+
+  this.numInStock = Math.floor(Math.random() * 100);
+});
+
 
 productSchema.statics.findActive = function(){
   return this.find({active: true});
