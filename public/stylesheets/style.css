@@ -6,3 +6,10 @@
 
   padding-bottom: 10px;
 }
+
+.product :nth-child(even){
+  background-color: #dcdcdc;
+}
+.product :nth-child(odd){
+  background-color: #aaaaaa;
+}

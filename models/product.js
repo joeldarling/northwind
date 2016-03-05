@@ -28,7 +28,11 @@ productSchema.pre('validate', function (next) {
     this.description = 'Description for ' +this.name;
   }
 
-  this.numInStock = Math.floor(Math.random() * 100);
+  if(!this.numInStock){
+    this.numInStock = Math.floor(Math.random() * 100);
+  }
+  //don't forget next!!
+  next();
 });
 
 
@@ -40,6 +44,10 @@ productSchema.statics.findInactive = function(){
   return this.find({active: false});
 };
 
+productSchema.methods.toggleState = function(){
+  this.active = !this.active;
+
+};
 
 var Product = mongoose.model('Product', productSchema);
 module.exports = Product;
