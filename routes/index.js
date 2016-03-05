@@ -26,6 +26,7 @@ router.get('/active', function( req, res, next ){
 
 router.get('/:id', function( req, res, next ){
 
+  console.log(req.body);
   product.findOne({_id: req.params.id})
   .then(function(result){
 
@@ -38,13 +39,14 @@ router.get('/:id', function( req, res, next ){
       result.toggleState();
       return result.save();
     }
+    else {
+      return result.save();
+    }
 
   })
   .then(function(){
-    res.redirect('/products');
+    res.render('single',{ products: product });
   });
-
-
 });
 
 
@@ -64,4 +66,20 @@ router.post('/', function ( req, res, next ){
       res.redirect('/products');
     })
     .then( null, next );
+});
+
+router.post('/:id', function ( req, res, next ){
+
+  console.log('poopy stick', req.body.stock);
+  product.findOne({_id: req.params.id})
+  .then(function(result){
+
+    result.numInStock = req.body.stock;
+
+    return result.save();
+  })
+  .then(function(){
+    res.redirect('/products');
+
+  });
 });
