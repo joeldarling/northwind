@@ -35,20 +35,18 @@
 
     {% for product in products %}
       <div class="form-inline">
-        <form method="POST" action="/products/{{ product._id.toString() }}">
         <div class="col-sm-3"> <a href="/products/{{ product._id.toString() }}">{{ product.name }} </a> </div>
         <div class="form-group">
           <div class="col-sm-3">
-            <input name="stock" type="text" class="form-control" value="{{ product.numInStock }}" />
+            <input name="stock" type="number" id="{{ product._id.toString() }}_qty"class="form-control" value="{{ product.numInStock }}" />
           </div>
           <div class="col-sm-3">
-            <button type="submit" class="btn btn-primary">Update Stock</button>
-          </div>
+            <button type="submit" class="btn btn-primary" onclick="window.location='/products/quantity/{{ product._id.toString() }}?quantity='+document.getElementById('{{ product._id.toString() }}_qty').value">Update Stock</button>          </div>
           <div class="col-sm-3">
             {% if product.active %}
-              <a href="/products/{{ product._id.toString() }}?action=toggle" class="btn btn-danger" role="button">Discontinue</a>
+              <a href="/products/{{ product._id.toString() }}/toggle" class="btn btn-danger" role="button">Discontinue</a>
             {% else %}
-              <a href="/products/{{ product._id.toString() }}?action=toggle" class="btn btn-success" role="button">Recontinue</a>
+              <a href="/products/{{ product._id.toString() }}/toggle" class="btn btn-success" role="button">Recontinue</a>
             {% endif %}
           </div>
         </div>

@@ -10,7 +10,6 @@ productSchema = new Schema({
   numInStock: {type: Number},
   active: {type: Boolean, default: true},
   lastUpdated: {type: Date, default: Date.now}
-
 });
 
 //pre-save middleware

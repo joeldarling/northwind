@@ -24,30 +24,58 @@ router.get('/active', function( req, res, next ){
 
 });
 
-router.get('/:id', function( req, res, next ){
+// router.get('/:id', function( req, res, next ){
+//
+//   product.findOne({_id: req.params.id})
+//   .then(function(result){
+//
+//     if(req.query.action === 'update'){
+//       result.numInStock = 1;
+//       return result.save();
+//     }
+//
+//     if(req.query.action === 'toggle'){
+//       result.toggleState();
+//       return result.save();
+//     }
+//     else {
+//       return result.save();
+//     }
+//
+//   })
+//   .then(function(){
+//     res.redirect('/');
+//   });
+// });
 
-  console.log(req.body);
+router.get('/:id/toggle', function ( req, res, next ){
+
   product.findOne({_id: req.params.id})
   .then(function(result){
-
-    if(req.query.action === 'update'){
-      result.numInStock = 1;
-      return result.save();
-    }
-
-    if(req.query.action === 'toggle'){
-      result.toggleState();
-      return result.save();
-    }
-    else {
-      return result.save();
-    }
-
+    result.toggleState();
+    return result.save();
   })
   .then(function(){
-    res.render('single',{ products: product });
+    res.redirect('/products');
   });
+
 });
+
+router.get('/quantity/:id', function ( req, res, next ){
+
+  product.findOne({_id: req.params.id})
+  .then(function(result){
+    result.numInStock = req.query.quantity;
+
+    return result.save();
+  })
+  .then(function(){
+    res.redirect('/products');
+  });
+
+});
+
+
 
 
 router.post('/', function ( req, res, next ){
@@ -66,20 +94,4 @@ router.post('/', function ( req, res, next ){
       res.redirect('/products');
     })
     .then( null, next );
-});
-
-router.post('/:id', function ( req, res, next ){
-
-  console.log('poopy stick', req.body.stock);
-  product.findOne({_id: req.params.id})
-  .then(function(result){
-
-    result.numInStock = req.body.stock;
-
-    return result.save();
-  })
-  .then(function(){
-    res.redirect('/products');
-
-  });
 });
