@@ -10,11 +10,10 @@ app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json());//needed?
 
 
 var swig = require('swig');
-app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'html');
 app.engine('html', swig.renderFile);
 swig.setDefaults({ cache: false });
@@ -22,13 +21,17 @@ swig.setDefaults({ cache: false });
 //connect to router
 app.use('/products', require('./routes'));
 
-//setup server
-app.listen(3000, function(){
-  console.log('server listening');
-
-});
-
 app.get('/', function( req, res, next){
   res.render('index');
 
 });
+
+app.use(function(err, req, res, next){
+  console.log(err);
+  res.sendStatus(500);
+});
+//setup server
+app.listen(process.env.PORT || 3000, function(){
+  console.log('server listening');
+});//set this up in separate file-- so you can do testing?
+

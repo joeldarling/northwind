@@ -5,7 +5,7 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDb connection 
 var Schema = mongoose.Schema;
 
 productSchema = new Schema({
-  name: {type: String, required: true},
+  name: {type: String, required: true},//unique?
   description: {type: String},
   numInStock: {type: Number},
   active: {type: Boolean, default: true},
@@ -37,16 +37,16 @@ productSchema.pre('validate', function (next) {
 
 productSchema.statics.findActive = function(){
   return this.find({active: true});
-};
+};//nice
 
 productSchema.statics.findInactive = function(){
   return this.find({active: false});
-};
+};//cool
 
 productSchema.methods.toggleState = function(){
   this.active = !this.active;
 
-};
+};//great
 
 var Product = mongoose.model('Product', productSchema);
 module.exports = Product;
